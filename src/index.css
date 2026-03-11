@@ -1,0 +1,383 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Colors from the provided image */
+  --bg-color-main: #2b1b54; 
+  --bg-gradient-start: #5a1e7b; /* The purplish/pink left side */
+  --bg-gradient-end: #1a2a6c;   /* The solid blueish right side */
+  
+  --text-primary: #ffffff;
+  --text-secondary: #e2e8f0;
+  
+  --accent-pink: #ec4899;
+  --accent-purple: #8b5cf6;
+  --accent-button: #a855f7; /* The purple button color */
+  --accent-button-secondary: #4f46e5; /* The blue button in nav */
+  
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color-main);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Background Gradients */
+.bg-gradients {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  
+  /* Fallback position if JS variables aren't set yet */
+  --mouse-x: 0%;
+  --mouse-y: 0%;
+
+  /* The image gradient but now dynamic and following the mouse */
+  background: radial-gradient(
+    circle at var(--mouse-x) var(--mouse-y), 
+    var(--bg-gradient-start) 0%, 
+    var(--bg-color-main) 50%, 
+    var(--bg-gradient-end) 100%
+  );
+  
+  /* Smoothly transition when mouse stops moving quickly */
+  transition: background 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+}
+
+/* Typography & Layout */
+.app-container {
+  width: 100%;
+  min-height: 200vh;
+}
+
+.hero-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 2rem;
+  pointer-events: none; /* Let mouse interact with background */
+}
+
+/* Need to re-enable pointer events for buttons inside the content */
+.hero-content * {
+  pointer-events: auto; 
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  color: #e2e8f0;
+  width: fit-content;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.hero-badge::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-purple);
+  box-shadow: 0 0 10px var(--accent-purple);
+}
+
+/* Navigation Bar */
+.main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 1.5rem 0;
+  transition: all 0.3s ease;
+}
+
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.logo-icon {
+  color: var(--accent-pink);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-links a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  color: #ffffff;
+}
+
+.btn-nav {
+  background-color: var(--accent-button-secondary);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: inherit;
+}
+
+.btn-nav:hover {
+  background-color: #6366f1;
+}
+
+/* Modifying Hero Text Colors for Reference Match */
+.hero-title {
+  /* Title is white with pink accents in the image */
+  font-size: 5rem;
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+  text-align: left; /* Image has left-aligned text */
+}
+
+.hero-title span {
+  /* The "Realidade Digital" part is pinkish in the image */
+  background: linear-gradient(135deg, #f472b6, #db2777); 
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Image is left aligned */
+  width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 0 8%; /* give some padding for the left align */
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  max-width: 650px; /* Narrower width for left alignment */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; /* Left align */
+  text-align: left; /* Left align */
+  margin-top: -5rem; /* slightly pull up */
+  pointer-events: none; 
+}
+
+/* Slogan Styling */
+.hero-slogan-box {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hero-slogan {
+  font-size: 4.5rem; /* Now acts as the main title */
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+}
+
+.hero-slogan span {
+  color: var(--text-primary); /* Remove pink from text to apply gradient below */
+  background: linear-gradient(135deg, #f472b6, #db2777); 
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-style: normal;
+  display: block; /* Throw 'Uma variavel por vez' on its own line */
+}
+
+.slogan-line {
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple));
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(236, 72, 153, 0.5);
+  margin-top: 10px;
+}
+
+/* New Primary Button Matching Image (Pink rounded) */
+.btn-primary {
+  padding: 16px 36px;
+  background: linear-gradient(90deg, #ec4899, #a855f7);
+  color: white;
+  border: none;
+  border-radius: 8px; /* Slightly less rounded than pill */
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -10px var(--accent-pink);
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: flex-start; /* Left align */
+}
+
+/* Hide secondary button as reference only has one */
+.btn-secondary {
+  display: none;
+}
+
+.hero-description {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-weight: 400;
+  margin-bottom: 3rem;
+  max-width: 600px;
+}
+
+/* 3D Container - FULL SCREEN ABSOLUTE */
+.hero-3d-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1; /* Behind content */
+}
+
+/* Next Section Hint */
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0;
+  z-index: 10;
+  animation: fadeIn 1s 1.5s forwards, bounce 2.5s infinite;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), transparent);
+}
+
+@keyframes fadeIn {
+  to { opacity: 0.6; }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+  40% { transform: translate(-50%, -8px); }
+  60% { transform: translate(-50%, -4px); }
+}
+
+@media (max-width: 1024px) {
+  .hero-section {
+    padding-top: 5rem;
+  }
+  .hero-title {
+    font-size: 3.5rem;
+  }
+  .hero-description {
+    font-size: 1.1rem;
+  }
+}
