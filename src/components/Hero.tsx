@@ -1,7 +1,7 @@
 import { Canvas } from '@react-three/fiber';
 import { Suspense } from 'react';
 import { motion, type Variants } from 'framer-motion';
-import MathGraph from './MathGraph';
+import DataCore from './DataCore';
 
 export default function Hero() {
   const containerVariants: Variants = {
@@ -28,7 +28,7 @@ export default function Hero() {
       >
         <Canvas camera={{ position: [0, 0, 15], fov: 45 }}>
           <Suspense fallback={null}>
-            <MathGraph />
+            <DataCore />
           </Suspense>
         </Canvas>
       </motion.div>
